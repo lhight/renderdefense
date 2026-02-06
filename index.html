@@ -371,10 +371,18 @@
         }
 
         .trust-divider {
+            
             width: 1px;
             height: 48px;
             background: var(--border);
         }
+        .trust-item-badge {
+            transform: scale(0.35);
+            transform-origin: left center;
+            margin: -40px 0;
+            margin-right: -50px;
+        }
+        
 
         /* ============================================
            PROBLEM STATEMENT — Arctic Wolf style
@@ -1553,9 +1561,8 @@
                     <a href="#solutions" class="btn-ghost">Explore Solutions</a>
                 </div>
                 <div class="hero-trust hero-anim hero-anim-5">
-                    <div class="trust-item">
-                        <span class="trust-value">CISSP</span>
-                        <span class="trust-label">Certified</span>
+                    <div class="trust-item trust-item-badge">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="d3aa2b5b-503d-4d88-b272-96b397c738de" data-share-badge-host="https://www.credly.com"></div>
                     </div>
                     <div class="trust-divider"></div>
                     <div class="trust-item">
@@ -2071,6 +2078,6 @@
     const dashShowcase = document.querySelector('.dashboard-showcase');
     if (dashShowcase) dashObserver.observe(dashShowcase);
 </script>
-
+<script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
 </body>
 </html>
