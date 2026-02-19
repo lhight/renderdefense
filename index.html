@@ -631,15 +631,15 @@ footer .container{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2rem;
 <div class="section-orb" style="width:600px;height:500px;top:-150px;left:50%;margin-left:-300px;background:radial-gradient(circle,rgba(0,0,0,0.02),transparent 65%);animation-delay:1s"></div>
 <div class="container">
   <div class="reveal"><div class="sl">Get Started</div><h2>Ready to close the<br><span class="blue">security gap?</span></h2><p class="cta-d">Tell us about your environment. We'll map your current posture and outline a clear path forward — no obligation, no hard sell.</p><div class="cta-pts"><div class="cta-pt">hello@renderdefense.com — Response within 24 hours</div><div class="cta-pt">US-Based, Global Reach</div><div class="cta-pt">Emergency Response — &lt; 1 hour SLA</div><div class="cta-pt">Your security roadmap included</div></div></div>
-  <div class="cf reveal reveal-delay-2">
+  <form class="cf reveal reveal-delay-2" id="contact-form" action="https://formspree.io/f/xgolwpgq" method="POST">
     <div class="cf-br-tr"></div><div class="cf-br-bl"></div><div class="cf-br-br"></div>
     <h3>Request Your Security Roadmap</h3>
-    <div class="fr"><div class="fg"><label>Name</label><input type="text" placeholder="Your name"></div><div class="fg"><label>Email</label><input type="email" placeholder="you@company.com"></div></div>
-    <div class="fg"><label>Company</label><input type="text" placeholder="Company name"></div>
-    <div class="fg"><label>How Can We Help?</label><textarea placeholder="Tell us about your security needs..."></textarea></div>
-    <button class="btn-blue">Request Roadmap →</button>
+    <div class="fr"><div class="fg"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div><div class="fg"><label>Email</label><input type="email" name="email" placeholder="you@company.com" required></div></div>
+    <div class="fg"><label>Company</label><input type="text" name="company" placeholder="Company name"></div>
+    <div class="fg"><label>How Can We Help?</label><textarea name="message" placeholder="Tell us about your security needs..."></textarea></div>
+    <button type="submit" class="btn-blue" id="contact-submit">Request Roadmap →</button>
     <p class="fn">Your information is encrypted and secure. We never share your data.</p>
-  </div>
+  </form>
 </div></section>
 
 <footer><div class="container">
@@ -1061,6 +1061,42 @@ if(!prefersReducedMotion)(function(){
       nav.classList.remove('open');
       btn.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════
+   CONTACT FORM — FORMSPREE SUBMISSION
+   ═══════════════════════════════════════════ */
+(function(){
+  const form = document.getElementById('contact-form');
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const btn = document.getElementById('contact-submit');
+    const origText = btn.textContent;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {'Accept':'application/json'}
+    }).then(function(r){
+      if(r.ok){
+        btn.textContent = 'Sent ✓';
+        form.reset();
+        setTimeout(function(){ btn.textContent = origText; btn.disabled = false; }, 3000);
+      } else {
+        r.json().then(function(data){
+          btn.textContent = 'Error — try again';
+          btn.disabled = false;
+          setTimeout(function(){ btn.textContent = origText; }, 3000);
+        });
+      }
+    }).catch(function(){
+      btn.textContent = 'Error — try again';
+      btn.disabled = false;
+      setTimeout(function(){ btn.textContent = origText; }, 3000);
     });
   });
 })();
