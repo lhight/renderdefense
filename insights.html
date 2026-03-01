@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insights | Render Defense</title>
+<meta name="description" content="Security thinking for what's next. Perspectives on security architecture, AI governance, and building resilient programs for growing businesses.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Insights — Render Defense">
+<meta property="og:description" content="Perspectives on security architecture, AI governance, and building resilient programs in resource-constrained environments.">
+<meta property="og:url" content="https://renderdefense.com/insights">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rd-bg:#FFFFFF;
+  --rd-bg-tint:#F7F8FA;
+  --rd-dark:#0B0B0C;
+  --rd-dark-2:#161616;
+  --rd-dark-3:#111111;
+  --rd-card-bg:#FFFFFF;
+  --rd-card-border:rgba(0,0,0,0.08);
+  --rd-card-border-strong:rgba(0,0,0,0.12);
+  --rd-card-shadow:0 1px 3px rgba(0,0,0,0.04),0 1px 2px rgba(0,0,0,0.02);
+  --rd-blue:#3B7BF7;
+  --rd-blue-bright:#5A93FF;
+  --rd-blue-glow:rgba(59,123,247,0.12);
+  --rd-blue-subtle:rgba(59,123,247,0.06);
+  --rd-purple:#7C5CFC;
+  --rd-text:#0B0B0C;
+  --rd-text-sec:#475569;
+  --rd-text-dim:#94A3B8;
+  --rd-green:#10B981;
+  --rd-red:#EF4444;
+  --rd-orange:#F59E0B;
+  --rd-white:#FFF;
+  --black-true:#0B0B0C;
+  --black-soft:#111111;
+  --black-elev:#161616;
+  --gray-900:#1F2933;
+  --gray-700:#475569;
+  --gray-500:#94A3B8
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--rd-bg);color:var(--rd-text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle,rgba(0,0,0,.03) 1px,transparent 1px);background-size:24px 24px;pointer-events:none;z-index:0;opacity:1}
+
+.container{max-width:1200px;margin:0 auto;padding:0 3rem;position:relative;z-index:2}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ringPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.15}50%{transform:translate(-50%,-50%) scale(1.08);opacity:.3}}
+@keyframes bannerSweep{0%{left:-100%}100%{left:200%}}
+@keyframes btnShimmer{0%{left:-100%}100%{left:200%}}
+
+.fade-up{opacity:0;animation:fadeUp .6s ease forwards}
+.fade-up-1{animation-delay:0s}
+.fade-up-2{animation-delay:.1s}
+.fade-up-3{animation-delay:.2s}
+.fade-up-4{animation-delay:.3s}
+.fade-up-5{animation-delay:.4s}
+.fade-up-6{animation-delay:.5s}
+.fade-up-7{animation-delay:.6s}
+.fade-up-8{animation-delay:.7s}
+.fade-up-9{animation-delay:.8s}
+.fade-up-10{animation-delay:.9s}
+
+/* ── Emergency Banner ── */
+.top-banner{background:linear-gradient(90deg,#0B0B0C,#1F2933);text-align:center;padding:.5rem 1rem;font-size:.8rem;font-weight:500;color:var(--rd-white);position:relative;overflow:hidden;z-index:101}
+.top-banner::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);animation:bannerSweep 4s ease-in-out infinite}
+.top-banner a{color:var(--rd-white);text-decoration:underline;font-weight:700;margin-left:.3rem}
+
+/* ── Navigation ── */
+nav{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--rd-card-border);padding:.9rem 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.logo-mark{width:34px;height:34px;flex-shrink:0;transition:filter .3s}
+.logo:hover .logo-mark{filter:drop-shadow(0 0 8px rgba(59,123,247,.25))}
+.logo-name{font-weight:700;font-size:1rem;color:#0B0B0C;letter-spacing:.04em}
+.logo-name span{font-weight:500;color:#475569}
+footer .logo-name{color:#F1F5F9}
+footer .logo-name span{color:rgba(241,245,249,0.65)}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{color:#475569;text-decoration:none;font-size:.82rem;font-weight:500;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:#0B0B0C;transition:width .3s}
+.nav-links a:hover{color:var(--rd-dark)}
+.nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--rd-dark)}
+.nav-links a.active::after{width:100%}
+.nav-cta-group{display:flex;gap:.6rem;align-items:center}
+
+/* ── Buttons ── */
+.btn-outline{display:inline-flex;align-items:center;gap:.4rem;background:0 0;color:#475569;border:1px solid var(--rd-card-border-strong);padding:.5rem 1.2rem;border-radius:8px;text-decoration:none;font-size:.8rem;font-weight:500;transition:all .35s;cursor:pointer;position:relative;overflow:hidden}
+.btn-outline::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.03),transparent);transition:left .5s}
+.btn-outline:hover::before{left:100%}
+.btn-outline:hover{border-color:#475569;color:var(--rd-dark);box-shadow:0 2px 12px rgba(0,0,0,.06)}
+
+.btn-blue{display:inline-flex;align-items:center;gap:.4rem;background:#111111;color:var(--rd-white);border:1px solid #111111;padding:.5rem 1.2rem;border-radius:8px;text-decoration:none;font-size:.8rem;font-weight:600;transition:all .35s;cursor:pointer;position:relative;overflow:hidden}
+.btn-blue::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:none}
+.btn-blue:hover::before{animation:btnShimmer .6s ease forwards}
+.btn-blue:hover{background:#1F2933;border-color:#1F2933;box-shadow:0 4px 16px rgba(11,11,12,.20),0 0 0 1px rgba(11,11,12,.10);transform:translateY(-1px)}
+.btn-blue-lg{padding:.85rem 2rem;font-size:.9rem;border-radius:10px}
+
+/* ── Hamburger & Mobile Nav ── */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem;z-index:10002;position:relative}
+.hamburger span{display:block;width:22px;height:2px;background:#0B0B0C;margin:5px 0;transition:all .3s;border-radius:1px}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-nav{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:10001;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;opacity:0;pointer-events:none;transition:opacity .35s}
+.mobile-nav.open{opacity:1;pointer-events:auto}
+.mn-link{color:#0B0B0C;text-decoration:none;font-size:1.3rem;font-weight:600;transition:color .3s}
+.mn-link:hover{color:#1F2933}
+.mn-ctas{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem;align-items:center}
+.mn-ctas .btn-outline,.mn-ctas .btn-blue{padding:.7rem 2rem;font-size:.9rem}
+
+/* ═══════════════════════════════════════
+   INSIGHTS PAGE STYLES
+   ═══════════════════════════════════════ */
+
+/* ── Hero ── */
+.insights-hero{background:var(--rd-dark);padding:6rem 0 5rem;position:relative;overflow:hidden}
+.insights-hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(59,123,247,.08) 0%,transparent 70%);pointer-events:none}
+.insights-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--rd-blue),transparent);opacity:.4}
+.insights-hero .mono-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rd-blue);margin-bottom:1.25rem}
+.insights-hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#F1F5F9;margin-bottom:1.25rem}
+.insights-hero h1 .gradient{background:linear-gradient(135deg,var(--rd-blue),var(--rd-blue-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.insights-hero .subtitle{font-size:1.1rem;color:rgba(241,245,249,.55);line-height:1.7;max-width:600px}
+
+/* ── Filter Bar ── */
+.filter-bar{position:relative;z-index:10;margin-top:-1.75rem}
+.filter-inner{background:var(--rd-card-bg);border:1px solid var(--rd-card-border);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.06);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.filter-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rd-text-dim);white-space:nowrap;font-weight:600}
+.filter-tags{display:flex;gap:.5rem;flex-wrap:wrap}
+.filter-tag{font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;color:var(--rd-text-sec);background:transparent;border:1px solid var(--rd-card-border-strong);border-radius:100px;padding:.4rem 1rem;cursor:pointer;transition:all .25s;white-space:nowrap}
+.filter-tag:hover{border-color:var(--rd-blue);color:var(--rd-blue)}
+.filter-tag.active{background:var(--rd-blue-subtle);border-color:rgba(59,123,247,.25);color:var(--rd-blue);font-weight:600}
+
+/* ── Featured Post ── */
+.featured-post{margin-top:2.5rem}
+.featured-card{display:grid;grid-template-columns:1fr 1fr;background:var(--rd-card-bg);border:1px solid var(--rd-card-border);border-radius:16px;overflow:hidden;transition:all .3s;cursor:pointer;text-decoration:none;color:inherit}
+.featured-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.08);transform:translateY(-2px)}
+.featured-visual{background:var(--rd-dark);position:relative;min-height:360px;overflow:hidden}
+.featured-visual::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(59,123,247,.04) 39px,rgba(59,123,247,.04) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(59,123,247,.04) 39px,rgba(59,123,247,.04) 40px);pointer-events:none}
+.ring-graphic{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1.5px solid var(--rd-blue);animation:ringPulse 3s ease-in-out infinite}
+.ring-1{width:200px;height:200px;opacity:.1;animation-delay:0s}
+.ring-2{width:150px;height:150px;opacity:.15;animation-delay:.4s}
+.ring-3{width:100px;height:100px;opacity:.2;animation-delay:.8s}
+.ring-4{width:50px;height:50px;opacity:.25;animation-delay:1.2s}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:var(--rd-blue);box-shadow:0 0 20px rgba(59,123,247,.4),0 0 60px rgba(59,123,247,.15)}
+.featured-content{padding:3rem;display:flex;flex-direction:column;justify-content:center}
+.post-meta{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+.post-category{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--rd-blue);font-weight:600}
+.post-date,.post-read{font-size:.75rem;color:var(--rd-text-dim)}
+.post-date::before{content:'';display:inline-block;width:3px;height:3px;border-radius:50%;background:var(--rd-text-dim);vertical-align:middle;margin-right:.75rem}
+.post-read::before{content:'';display:inline-block;width:3px;height:3px;border-radius:50%;background:var(--rd-text-dim);vertical-align:middle;margin-right:.75rem}
+.featured-content h2{font-size:1.65rem;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:1rem}
+.featured-content .excerpt{font-size:.95rem;color:var(--rd-text-sec);line-height:1.7;margin-bottom:1.5rem}
+.read-link{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:500;color:var(--rd-blue);text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:gap .25s}
+.read-link:hover{gap:.75rem}
+
+/* ── Post Cards Grid ── */
+.posts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin-top:2.5rem;padding-bottom:4rem}
+.post-card{background:var(--rd-card-bg);border:1px solid var(--rd-card-border);border-radius:12px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
+.post-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--rd-blue),var(--rd-blue-bright));border-radius:12px 12px 0 0}
+.post-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.08);transform:translateY(-3px)}
+.post-card-body{padding:2rem}
+.post-card .post-meta{margin-bottom:.75rem}
+.post-card h3{font-size:1.2rem;font-weight:700;letter-spacing:-.01em;line-height:1.3;margin-bottom:.75rem}
+.post-card .excerpt{font-size:.88rem;color:var(--rd-text-sec);line-height:1.7;margin-bottom:1.25rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.post-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.post-tag{font-size:.68rem;font-weight:600;color:var(--rd-text-sec);background:var(--rd-bg-tint);border-radius:6px;padding:.25rem .7rem;letter-spacing:.01em}
+
+/* ── CTA Banner ── */
+.insights-cta{padding:0 0 5rem}
+.cta-banner{background:var(--rd-dark);border-radius:16px;padding:3.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;position:relative;overflow:hidden}
+.cta-banner::before{content:'';position:absolute;top:-80px;right:-80px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(59,123,247,.08) 0%,transparent 70%);pointer-events:none}
+.cta-banner h3{font-size:1.5rem;font-weight:700;color:#F1F5F9;letter-spacing:-.01em;margin-bottom:.5rem}
+.cta-banner p{font-size:.9rem;color:rgba(241,245,249,.55);line-height:1.6}
+.cta-banner .cta-btn{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--rd-blue);color:var(--rd-white);border:none;padding:.9rem 2rem;border-radius:10px;text-decoration:none;cursor:pointer;transition:all .3s;white-space:nowrap;display:inline-flex;align-items:center;gap:.5rem;flex-shrink:0}
+.cta-banner .cta-btn:hover{background:var(--rd-blue-bright);box-shadow:0 4px 20px rgba(59,123,247,.3);transform:translateY(-1px)}
+
+/* ── Footer ── */
+footer{border-top:none;padding:3rem 0 2rem;position:relative;background:#161616;color:#F1F5F9}
+footer .container{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2.5rem}
+.fb p{font-size:.78rem;color:rgba(241,245,249,0.55);line-height:1.7;margin-top:.75rem;max-width:260px}
+.fc h4{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(241,245,249,0.55);font-weight:600;margin-bottom:.85rem}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.fc a{font-size:.82rem;color:rgba(241,245,249,0.65);text-decoration:none;transition:color .3s}
+.fc a:hover{color:#FFF}
+.fbot{border-top:1px solid rgba(255,255,255,0.06);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.fcopy{font-size:.7rem;color:rgba(241,245,249,0.55)}
+.ftag{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(241,245,249,0.55);letter-spacing:.08em;text-transform:uppercase}
+.fb-creds{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(241,245,249,0.55);letter-spacing:.06em;margin-top:.5rem}
+.fb-social{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.06);color:rgba(241,245,249,0.55);text-decoration:none;margin-top:.75rem;transition:all .3s}
+.fb-social:hover{color:#FFF;border-color:rgba(255,255,255,.25);box-shadow:0 0 15px rgba(255,255,255,.06);transform:translateY(-2px)}
+
+/* ── Responsive ── */
+@media(max-width:968px){
+  .nav-links{display:none}
+  .nav-cta-group{display:none}
+  .hamburger{display:block}
+  nav{z-index:10000}
+  .container{padding:0 1.5rem}
+  .insights-hero{padding:4rem 0 3.5rem}
+  .insights-hero h1{font-size:2.2rem}
+  .featured-card{grid-template-columns:1fr}
+  .featured-visual{min-height:200px}
+  .featured-content{padding:2rem}
+  .posts-grid{grid-template-columns:1fr}
+  .cta-banner{flex-direction:column;text-align:center;padding:2.5rem}
+  footer .container{grid-template-columns:1fr 1fr}
+  .filter-inner{padding:.6rem 1rem}
+}
+@media(max-width:640px){
+  footer .container{grid-template-columns:1fr}
+  .filter-tags{gap:.35rem}
+  .filter-tag{font-size:.72rem;padding:.35rem .8rem}
+}
+
+/* ── Reduced Motion ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .fade-up{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="top-banner">Experienced a breach? We respond in under 1 hour. <a href="index.html#contact">Get emergency support &rarr;</a></div>
+
+<nav><div class="container"><a href="index.html" class="logo"><svg class="logo-mark" width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 5L93 27.5v45L50 95 7 72.5v-45L50 5z" fill="none" stroke="#3D7AD0" stroke-width="4.1"/><path d="M38 30L24 50l14 20" fill="none" stroke="#111111" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M55 30c14 0 22 9 22 20s-8 20-22 20" fill="none" stroke="#6B7280" stroke-width="5.8" stroke-linecap="round"/><circle cx="50" cy="50" r="2.6" fill="#4785E0"/></svg><div class="logo-name">RENDER <span>DEFENSE</span></div></a><ul class="nav-links"><li><a href="index.html#solutions">Solutions</a></li><li><a href="index.html#results">Results</a></li><li><a href="index.html#approach">Why Us</a></li><li><a href="insights.html" class="active">Insights</a></li><li><a href="index.html#faq">FAQ</a></li></ul><div class="nav-cta-group"><a href="index.html#contact" class="btn-outline">See Your Risk Profile</a><a href="index.html#contact" class="btn-blue">Get Your Roadmap</a></div><button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button></div></nav>
+<div class="mobile-nav" id="mobile-nav"><a href="index.html#solutions" class="mn-link">Solutions</a><a href="index.html#results" class="mn-link">Results</a><a href="index.html#approach" class="mn-link">Why Us</a><a href="insights.html" class="mn-link">Insights</a><a href="index.html#faq" class="mn-link">FAQ</a><div class="mn-ctas"><a href="index.html#contact" class="btn-outline">See Your Risk Profile</a><a href="index.html#contact" class="btn-blue">Get Your Roadmap</a></div></div>
+
+<!-- ═══ Hero ═══ -->
+<section class="insights-hero">
+  <div class="container">
+    <div class="mono-label fade-up fade-up-1">// Insights</div>
+    <h1 class="fade-up fade-up-2">Security thinking for <span class="gradient">what's next.</span></h1>
+    <p class="subtitle fade-up fade-up-3">Perspectives on security architecture, AI governance, and building resilient programs in resource-constrained environments.</p>
+  </div>
+</section>
+
+<!-- ═══ Filter Bar ═══ -->
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-inner fade-up fade-up-4">
+      <span class="filter-label">Filter</span>
+      <div class="filter-tags">
+        <button class="filter-tag active" data-filter="all">All</button>
+        <button class="filter-tag" data-filter="security-architecture">Security Architecture</button>
+        <button class="filter-tag" data-filter="ai-governance">AI Governance</button>
+        <button class="filter-tag" data-filter="strategy-leadership">Strategy &amp; Leadership</button>
+        <button class="filter-tag" data-filter="compliance">Compliance</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Featured Post ═══ -->
+<section class="featured-post">
+  <div class="container">
+    <div class="featured-card fade-up fade-up-5" data-category="ai-governance">
+      <div class="featured-visual">
+        <div class="ring-graphic">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="ring ring-4"></div>
+          <div class="ring-center"></div>
+        </div>
+      </div>
+      <div class="featured-content">
+        <div class="post-meta">
+          <span class="post-category">AI Governance</span>
+          <span class="post-date">Feb 28, 2026</span>
+          <span class="post-read">&#9201; 6 min read</span>
+        </div>
+        <h2>AI Governance for Growing Businesses: Why It Can't Wait</h2>
+        <p class="excerpt">Your team is already using AI tools &mdash; whether you've approved them or not. Without a governance framework, you're exposing sensitive data to models you don't control. Here's how to get ahead of it before it becomes a breach.</p>
+        <a href="#" class="read-link">Read Article &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Post Cards Grid ═══ -->
+<section class="posts-grid-section">
+  <div class="container">
+    <div class="posts-grid">
+
+      <div class="post-card fade-up fade-up-6" data-category="security-architecture">
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="post-category">Security Architecture</span>
+            <span class="post-read">&#9201; 4 min read</span>
+          </div>
+          <h3>Why Your MSP Isn't a Security Strategy</h3>
+          <p class="excerpt">Managed service providers keep your systems running, but most aren't architecting your defense. There's a critical difference between IT support and a security program &mdash; and it's costing you more than you think.</p>
+          <div class="post-tags">
+            <span class="post-tag">MSP</span>
+            <span class="post-tag">Risk</span>
+            <span class="post-tag">Architecture</span>
+          </div>
+          <a href="#" class="read-link">Read Article &rarr;</a>
+        </div>
+      </div>
+
+      <div class="post-card fade-up fade-up-7" data-category="strategy-leadership">
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="post-category">Strategy &amp; Leadership</span>
+            <span class="post-read">&#9201; 5 min read</span>
+          </div>
+          <h3>The Fractional CISO: Enterprise Security Without the Enterprise Price Tag</h3>
+          <p class="excerpt">You need executive-level security leadership, but a full-time CISO costs $200K+. A fractional model gives you the strategy, governance, and board-level reporting at a fraction of the cost.</p>
+          <div class="post-tags">
+            <span class="post-tag">CISO</span>
+            <span class="post-tag">Leadership</span>
+            <span class="post-tag">Strategy</span>
+          </div>
+          <a href="#" class="read-link">Read Article &rarr;</a>
+        </div>
+      </div>
+
+      <div class="post-card fade-up fade-up-8" data-category="compliance">
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="post-category">Compliance</span>
+            <span class="post-read">&#9201; 5 min read</span>
+          </div>
+          <h3>CIS Controls for the Real World: A Practical Roadmap</h3>
+          <p class="excerpt">CIS Controls v8 is the gold standard for cyber hygiene, but most implementations stall at the spreadsheet stage. Here's a phased approach that gets you to IG1 baseline in 90 days without overwhelming your team.</p>
+          <div class="post-tags">
+            <span class="post-tag">CIS v8</span>
+            <span class="post-tag">Compliance</span>
+            <span class="post-tag">Roadmap</span>
+          </div>
+          <a href="#" class="read-link">Read Article &rarr;</a>
+        </div>
+      </div>
+
+      <div class="post-card fade-up fade-up-9" data-category="security-architecture">
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="post-category">Security Architecture</span>
+            <span class="post-read">&#9201; 4 min read</span>
+          </div>
+          <h3>Incident Response Planning: What Happens After the Breach</h3>
+          <p class="excerpt">Most businesses discover gaps in their response plan during an actual incident. By then it's too late. A tested, documented IR plan is the difference between a contained event and a catastrophic one.</p>
+          <div class="post-tags">
+            <span class="post-tag">Incident Response</span>
+            <span class="post-tag">Planning</span>
+            <span class="post-tag">Resilience</span>
+          </div>
+          <a href="#" class="read-link">Read Article &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA Banner ═══ -->
+<section class="insights-cta">
+  <div class="container">
+    <div class="cta-banner fade-up fade-up-10">
+      <div>
+        <h3>Want to know where your gaps are?</h3>
+        <p>Let's have a conversation about your security posture.</p>
+      </div>
+      <a href="index.html#contact" class="cta-btn">Schedule a Call &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer><div class="container">
+  <div class="fb"><a href="index.html" class="logo"><svg class="logo-mark" width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 5L93 27.5v45L50 95 7 72.5v-45L50 5z" fill="none" stroke="#4785E0" stroke-width="3.8"/><path d="M38 30L24 50l14 20" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M55 30c14 0 22 9 22 20s-8 20-22 20" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-opacity="0.62"/><circle cx="50" cy="50" r="2.5" fill="#FFFFFF" fill-opacity="0.8"/></svg><div class="logo-name" style="font-size:.9rem">RENDER <span>DEFENSE</span></div></a><p>Enterprise-grade security architecture for growing businesses. 25+ years of Fortune 500 experience, right-sized for your reality.</p><p class="fb-creds">CISSP-Certified &middot; Atlanta, GA</p><a href="https://linkedin.com/in/larnelhight" class="fb-social" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+  <div class="fc"><h4>Solutions</h4><ul><li><a href="index.html#solutions">Managed Security</a></li><li><a href="index.html#solutions">Strategy &amp; Governance</a></li><li><a href="index.html#solutions">AI Security</a></li><li><a href="index.html#solutions">Incident Response</a></li></ul></div>
+  <div class="fc"><h4>Company</h4><ul><li><a href="index.html#approach">Why Us</a></li><li><a href="index.html#results">Results</a></li><li><a href="index.html#faq">FAQ</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+  <div class="fc"><h4>Frameworks</h4><ul><li><a href="#">NIST CSF</a></li><li><a href="#">CIS Controls v8</a></li><li><a href="#">NIST AI RMF</a></li><li><a href="#">SOC 2 / HIPAA</a></li></ul></div>
+</div><div class="container"><div class="fbot"><div class="fcopy">&copy; 2026 Render Defense. All rights reserved.</div><div class="ftag">Strategy &middot; Governance &middot; Protection</div></div></div></footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   INSIGHTS PAGE — INTERACTIONS
+   ═══════════════════════════════════════════ */
+
+// ── Filter Tags ──
+(function(){
+  const tags = document.querySelectorAll('.filter-tag');
+  const featured = document.querySelector('.featured-card');
+  const cards = document.querySelectorAll('.post-card');
+
+  tags.forEach(function(tag){
+    tag.addEventListener('click', function(){
+      tags.forEach(function(t){ t.classList.remove('active'); });
+      tag.classList.add('active');
+
+      var filter = tag.getAttribute('data-filter');
+
+      // Featured post
+      if(filter === 'all' || featured.getAttribute('data-category') === filter){
+        featured.style.display = '';
+      } else {
+        featured.style.display = 'none';
+      }
+
+      // Grid cards
+      cards.forEach(function(card){
+        if(filter === 'all' || card.getAttribute('data-category') === filter){
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+})();
+
+// ── Mobile Nav ──
+(function(){
+  var btn = document.querySelector('.hamburger');
+  var nav = document.getElementById('mobile-nav');
+  if(!btn || !nav) return;
+  btn.addEventListener('click', function(){
+    btn.classList.toggle('active');
+    nav.classList.toggle('open');
+    var expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !expanded);
+    document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+  });
+  nav.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', function(){
+      btn.classList.remove('active');
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
