@@ -469,6 +469,21 @@ footer .container{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2rem;
 /* ── Focus Visible ── */
 .fi-inner:focus-visible{outline:2px solid #0B0B0C;outline-offset:2px;border-radius:8px}
 .stab:focus-visible{outline:2px solid #0B0B0C;outline-offset:-2px}
+
+/* ── Latest Thinking Blog Strip ── */
+.lt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+.lt-card{background:var(--rd-card-bg);border:1px solid var(--rd-card-border);border-radius:14px;overflow:hidden;transition:all .45s;text-decoration:none;color:inherit;display:flex;flex-direction:column;box-shadow:var(--rd-card-shadow)}
+.lt-card:hover{border-color:rgba(0,0,0,.12);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06)}
+.lt-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--rd-dark)}
+.lt-body{padding:1.5rem;display:flex;flex-direction:column;flex:1}
+.lt-cat{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--rd-blue);font-weight:600;margin-bottom:.5rem}
+.lt-title{font-size:1.05rem;font-weight:700;line-height:1.35;letter-spacing:-.01em;margin-bottom:.5rem}
+.lt-date{font-size:.75rem;color:var(--rd-text-dim);margin-bottom:.75rem}
+.lt-link{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:500;color:var(--rd-blue);display:inline-flex;align-items:center;gap:.4rem;margin-top:auto;transition:gap .25s}
+.lt-card:hover .lt-link{gap:.65rem}
+.lt-placeholder{width:100%;aspect-ratio:16/9;background:var(--rd-dark);display:flex;align-items:center;justify-content:center}
+.lt-placeholder svg{width:40px;height:40px;opacity:.25}
+@media(max-width:968px){.lt-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -623,6 +638,51 @@ footer .container{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2rem;
     <div class="fi reveal reveal-delay-5" aria-expanded="false"><div class="fi-inner" tabindex="0" role="button"><div class="fq">Can you help with AI governance?<div class="ft">+</div></div></div><div class="fa"><div class="fa-inner"><p>Yes — it's a core specialty. We use the NIST AI Risk Management Framework to build governance policies that let your team adopt AI safely while protecting sensitive data and maintaining compliance.</p></div></div></div>
   </div>
 </div></section>
+
+<div class="circuit-divider"><div class="line"></div><div class="pulse-dot"></div></div>
+
+<section class="latest-thinking tint">
+<div class="section-grid"></div>
+<div class="container">
+  <div class="reveal">
+    <div class="sl">Latest Thinking</div>
+    <div class="st">From the front lines</div>
+    <p class="ss">Insights on cybersecurity strategy, AI governance, and building resilient organizations.</p>
+  </div>
+  <div class="lt-grid reveal reveal-delay-2">
+    <a href="insights/agentic-ai-security-framework.html" class="lt-card">
+      <img src="assets/agentic-ai-hero.png" alt="Agentic AI Security Framework" class="lt-img">
+      <div class="lt-body">
+        <div class="lt-cat">AI Governance</div>
+        <div class="lt-title">Agentic AI Security Framework: What Every Business Leader Needs to Know</div>
+        <div class="lt-date">May 2025</div>
+        <span class="lt-link">Read more <span>→</span></span>
+      </div>
+    </a>
+    <a href="insights/ai-governance.html" class="lt-card">
+      <div class="lt-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5.5 3.5 10 8 11 4.5-1 8-5.5 8-11V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div class="lt-body">
+        <div class="lt-cat">AI Governance</div>
+        <div class="lt-title">AI Governance for Growing Businesses: A Practical Starting Point</div>
+        <div class="lt-date">April 2025</div>
+        <span class="lt-link">Read more <span>→</span></span>
+      </div>
+    </a>
+    <a href="insights/msp-not-security-strategy.html" class="lt-card">
+      <div class="lt-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="lt-body">
+        <div class="lt-cat">Strategy</div>
+        <div class="lt-title">Why Your MSP Isn't a Security Strategy</div>
+        <div class="lt-date">March 2025</div>
+        <span class="lt-link">Read more <span>→</span></span>
+      </div>
+    </a>
+  </div>
+  <div style="text-align:center;margin-top:2rem" class="reveal reveal-delay-3">
+    <a href="insights.html" class="btn-outline">View All Insights →</a>
+  </div>
+</div>
+</section>
 
 <div class="circuit-divider"><div class="line"></div><div class="pulse-dot"></div></div>
 
